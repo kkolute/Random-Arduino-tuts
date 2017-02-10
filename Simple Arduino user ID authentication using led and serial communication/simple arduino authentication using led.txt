@@ -1,0 +1,49 @@
+String userId [5] = { "ar333" ,"ab100", "ac200", "ad300", "af400"};//array to store userId
+String userFullName [5] = {"jayson david" , "kid juniour" , "alex peter" , "jordan king" , "john paul" };
+int greenLed = 2;
+int redLed = 3;
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  //initialize the led pins
+  pinMode (greenLed , OUTPUT);
+  pinMode (redLed , OUTPUT);
+
+}
+
+void loop() {
+  int nameNo;
+  bool found = false;
+  
+
+  Serial.println("Please enter your username or ID: ");
+// wait for user input through serial
+  while(Serial.available() == 0);
+
+  //read the input
+  String id = Serial.readString();
+  id.trim();// trim to remove the return character
+
+// loop through array to find valid id
+  for(int i =0 ; i<5 ; i++){
+      if (id== userId[i]){
+          found = true;
+          nameNo = i;
+      }
+  }
+  //command to run if a valid name is found
+  if(found){
+     Serial.println("Hello " +userFullName[nameNo]);
+     digitalWrite(redLed , LOW);
+     digitalWrite(greenLed , HIGH); 
+      
+  }
+  //command to run if an invalid name is entered
+  else{
+       Serial.println("invalid Username");
+       digitalWrite(greenLed , LOW); 
+       digitalWrite(redLed , HIGH);
+  }
+  
+}
